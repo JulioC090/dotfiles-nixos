@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
   imports =
@@ -8,6 +8,10 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.extraModprobeConfig = ''
+    options snd-hda-intel model=dell-headset-multi
+  '';
 
   networking.hostName = "nixos-btw";
   networking.networkmanager.enable = true;
@@ -43,6 +47,42 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
+    wireplumber.enable = true;
+    extraConfig.pipewire."10-microphone-quality" = {
+      "context.properties" = {
+        "default.clock.rate" = 48000;
+        "default.clock.allowed-rates" = [ 48000 44100 32000 16000 8000 ];
+        "default.clock.quantum" = 1024;
+        "default.clock.min-quantum" = 256;
+        "default.clock.max-quantum" = 2048;
+      };
+    };
+    extraConfig.pipewire-pulse."10-microphone-quality" = {
+      "pulse.properties" = {
+        "pulse.default.format" = "S16LE";
+        "pulse.default.rate" = 48000;
+        "pulse.min.req" = "256/48000";
+        "pulse.default.req" = "1024/48000";
+        "pulse.max.req" = "2048/48000";
+      };
+    };
+    wireplumber.extraConfig."10-alsa-mic-stability" = {
+      "monitor.alsa.rules" = [
+        {
+          matches = [
+            {
+              "node.name" = "~alsa_input.*";
+            }
+          ];
+          actions = {
+            "update-props" = {
+              "session.suspend-timeout-seconds" = 0;
+            };
+          };
+        }
+      ];
+    };
   };
 
   hardware.bluetooth = {
@@ -71,6 +111,8 @@
     wget
     git
     alacritty
+    pavucontrol
+    easyeffects
   ];
 
   fonts.packages = with pkgs; [

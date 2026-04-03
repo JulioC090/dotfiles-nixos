@@ -17,5 +17,6 @@
     nodejs
     ripgrep
     gcc
+    discord
   ];
 }
