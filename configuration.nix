@@ -19,6 +19,11 @@
     domains = [ "~." ];
   };
 
+  services.xserver = {
+    xkb.layout = "br";
+    xkbModel = "abnt2";
+  };
+
 
   time.timeZone = "America/Sao_Paulo";
 
