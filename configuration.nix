@@ -37,8 +37,10 @@
     enable = true;
     autoRepeatDelay = 200;
     autoRepeatInterval = 35;
-    windowManager.qtile.enable = true;
   };
+
+  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
 
   security.rtkit.enable = true;
 
@@ -92,7 +94,7 @@
 
   hardware.pulseaudio.enable = false;
 
-  services.displayManager.ly.enable = true;
+  services.displayManager.ly.enable = false;
 
   users.users.julio = {
     isNormalUser = true;
