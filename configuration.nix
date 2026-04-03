@@ -36,6 +36,22 @@
     windowManager.qtile.enable = true;
   };
 
+  security.rtkit.enable = true;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
+  hardware.pulseaudio.enable = false;
+
   services.displayManager.ly.enable = true;
 
   users.users.julio = {
